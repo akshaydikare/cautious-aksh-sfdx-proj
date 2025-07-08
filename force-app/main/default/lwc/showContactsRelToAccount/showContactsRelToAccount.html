@@ -1,0 +1,35 @@
+<template>
+    <lightning-card title={cardTitle} icon-name="standard:contact">
+        <div class="slds-p-around_medium">
+            <!-- If the component is not on a record page, show a message -->
+            <template if:false={recordId}>
+                <p>This component is designed to be used on an Account record page.</p>
+            </template>
+
+            <!-- If there are contacts, display them in a datatable -->
+            <template if:true={hasContacts}>
+                <lightning-datatable
+                    key-field="Id"
+                    data={contacts}
+                    columns={columns}
+                    hide-checkbox-column="true"
+                    show-row-number-column="false">
+                </lightning-datatable>
+            </template>
+
+            <!-- If there are no contacts, show a message -->
+            <template if:false={hasContacts}>
+                <template if:true={recordId}>
+                    <p>No contacts found for this account.</p>
+                </template>
+            </template>
+
+            <!-- Display an error message if the Apex call fails -->
+            <template if:true={error}>
+                <p class="slds-text-color_error">Error loading contacts.</p>
+                <!-- For debugging, you can uncomment the next line -->
+                <!-- <p>{error.body.message}</p> -->
+            </template>
+        </div>
+    </lightning-card>
+</template>
