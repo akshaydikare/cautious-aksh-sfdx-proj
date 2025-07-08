@@ -10,3 +10,21 @@ System.debug('Hello World!');
 System.debug('My name is ' + tempvar);
 
 AccountContactController.getContacts('001Hp00002f3epXIAQ');
+
+ObjectC__c obcC = new ObjectC__c(text_sample__c='ObjectC record inserting_3', EMaill__c='ababab@gmail.com');
+Database.SaveResult[] srList = Database.insert(obcC, false);
+
+for (Database.SaveResult sr : srList) {
+    if (sr.isSuccess()) {
+        // Operation was successful, so get the ID of the record that was processed
+        System.debug('Successfully inserted account. Account ID: ' + sr.getId());
+    }
+    else {
+        // Operation failed, so get all errors                
+        for(Database.Error err : sr.getErrors()) {
+            System.debug('The following error has occurred.');                    
+            System.debug(err.getStatusCode() + ': ' + err.getMessage());
+            System.debug('Account fields that affected this error: ' + err.getFields());
+        }
+    }
+}
