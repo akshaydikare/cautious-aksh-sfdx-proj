@@ -12,6 +12,7 @@ System.debug('My name is ' + tempvar);
 AccountContactController.getContacts('001Hp00002f3epXIAQ');
 
 ObjectC__c obcC = new ObjectC__c(text_sample__c='ObjectC record inserting_3', EMaill__c='ababab@gmail.com');
+Database.insert(obcC, false);
 Database.SaveResult[] srList = Database.insert(obcC, false);
 
 for (Database.SaveResult sr : srList) {
