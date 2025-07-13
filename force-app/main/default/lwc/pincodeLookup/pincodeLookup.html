@@ -1,0 +1,70 @@
+<template>
+    <lightning-card title="Indian Pincode Lookup" icon-name="utility:location">
+        <div class="slds-m-around_medium">
+            <lightning-input
+                label="Enter Pincode"
+                type="number"
+                value={pincode}
+                onchange={handlePincodeChange}
+                placeholder="e.g., 400001"
+                minlength="6"
+                maxlength="6"
+            ></lightning-input>
+            <div class="slds-m-top_small">
+                <lightning-button
+                    label="Search"
+                    variant="brand"
+                    onclick={handleSearch}
+                    disabled={isLoading}
+                ></lightning-button>
+                <lightning-button class="slds-m-left_small"
+                    label="Clear"
+                    variant="neutral"
+                    onclick={handleClear}
+                    disabled={isLoading}
+                ></lightning-button>
+            </div>
+
+            <template if:true={isLoading}>
+                <div class="slds-align_absolute-center slds-m-top_medium">
+                    <lightning-spinner alternative-text="Loading..." size="medium"></lightning-spinner>
+                </div>
+            </template>
+
+            <template if:true={errorMessage}>
+                <div class="slds-m-top_medium">
+                    <p class="slds-text-color_error">{errorMessage}</p>
+                </div>
+            </template>
+
+            <template if:true={pincodeDetails}>
+                <div class="slds-m-top_medium">
+                    <template if:true={pincodeDetails.Message}>
+                        <p class="slds-text-heading_small">{pincodeDetails.Message}</p>
+                    </template>
+
+                    <template if:true={pincodeDetails.PostOffice}>
+                        <div class="slds-grid slds-wrap slds-gutters">
+                            <template for:each={pincodeDetails.PostOffice} for:item="office">
+                                <div key={office.Name} class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2 slds-large-size_1-of-2">
+                                    <lightning-card class="slds-m-top_small" title={office.Name}>
+                                        <p><strong>Branch Type:</strong> {office.BranchType}</p>
+                                        <p><strong>Delivery Status:</strong> {office.DeliveryStatus}</p>
+                                        <p><strong>District:</strong> {office.District}</p>
+                                        <p><strong>Division:</strong> {office.Division}</p>
+                                        <p><strong>Region:</strong> {office.Region}</p>
+                                        <p><strong>State:</strong> {office.State}</p>
+                                        <p><strong>Pincode:</strong> {office.Pincode}</p>
+                                        <template if:true={office.Description}>
+                                            <p><strong>Description:</strong> {office.Description}</p>
+                                        </template>
+                                    </lightning-card>
+                                </div>
+                            </template>
+                        </div>
+                        </template>
+                </div>
+            </template>
+        </div>
+    </lightning-card>
+</template>
