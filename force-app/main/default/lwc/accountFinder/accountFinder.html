@@ -1,0 +1,61 @@
+<template>
+    <lightning-card title="Account Finder" icon-name="standard:account">
+        <div class="slds-p-around_medium">
+            <p class="slds-m-bottom_medium">
+                This component demonstrates how an empty string from an LWC is treated as null in Apex.
+            </p>
+
+            <!-- Input Section -->
+            <lightning-input
+                label="Enter Account ID"
+                value={accountIdToSearch}
+                onchange={handleIdChange}
+                placeholder="Enter a valid 18-digit Account ID..."
+                class="slds-m-bottom_small">
+            </lightning-input>
+
+            <!-- Button Section -->
+            <lightning-layout horizontal-align="space">
+                <lightning-layout-item>
+                    <lightning-button
+                        label="Search"
+                        variant="brand"
+                        onclick={handleSearch}
+                        title="Search for the entered Account ID">
+                    </lightning-button>
+                </lightning-layout-item>
+                <lightning-layout-item>
+                    <lightning-button
+                        label="Search with Empty ID"
+                        onclick={handleSearchWithEmptyId}
+                        title="Demonstrates sending an empty string to Apex">
+                    </lightning-button>
+                </lightning-layout-item>
+            </lightning-layout>
+
+            <!-- Results Section -->
+            <div class="slds-m-top_large">
+                <template if:true={isLoading}>
+                    <lightning-spinner alternative-text="Loading..." size="medium"></lightning-spinner>
+                </template>
+
+                <!-- Display Account Details -->
+                <template if:true={account}>
+                    <div class="slds-box slds-theme_shade">
+                        <h3 class="slds-text-heading_medium slds-m-bottom_small">{account.Name}</h3>
+                        <p><strong>Industry:</strong> {account.Industry}</p>
+                        <p><strong>Phone:</strong> {account.Phone}</p>
+                        <p><strong>Type:</strong> {account.Type}</p>
+                    </div>
+                </template>
+
+                <!-- Display Error or No Results Message -->
+                <template if:true={error}>
+                    <div class="slds-text-color_error slds-m-top_small">
+                        {error}
+                    </div>
+                </template>
+            </div>
+        </div>
+    </lightning-card>
+</template>
