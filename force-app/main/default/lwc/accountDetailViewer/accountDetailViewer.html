@@ -1,0 +1,78 @@
+<template>
+    <lightning-card title="Account Relationship Viewer" icon-name="standard:account">
+        <div class="slds-p-around_medium">
+            <lightning-combobox
+                name="account"
+                label="Select an Account"
+                value={selectedAccountId}
+                placeholder="--Select Account--"
+                options={accountOptions}
+                onchange={handleAccountChange}
+                class="slds-m-bottom_medium">
+            </lightning-combobox>
+
+            <template if:true={isLoading}>
+                <div class="slds-is-relative">
+                    <lightning-spinner alternative-text="Loading..." size="medium"></lightning-spinner>
+                </div>
+            </template>
+
+            <template if:true={selectedAccountId}>
+                <template if:false={isLoading}>
+                    <lightning-layout multiple-rows="true">
+
+                        <lightning-layout-item size="12" small-device-size="12" medium-device-size="4" large-device-size="4" padding="around-small">
+                            <lightning-card title="Account Owner" icon-name="standard:user">
+                                <div class="slds-p-horizontal_medium">
+                                    <template if:true={account.Owner}>
+                                        <p><strong>Name:</strong> {account.Owner.Name}</p>
+                                        <p><strong>Title:</strong> {account.Owner.Title}</p>
+                                        <p><strong>Email:</strong> {account.Owner.Email}</p>
+                                        <p><strong>Phone:</strong> {account.Owner.Phone}</p>
+                                    </template>
+                                </div>
+                            </lightning-card>
+                        </lightning-layout-item>
+
+                        <lightning-layout-item size="12" small-device-size="12" medium-device-size="4" large-device-size="4" padding="around-small">
+                            <lightning-card title="Related Contacts" icon-name="standard:contact">
+                                <div class="slds-p-horizontal_medium">
+                                    <template if:true={hasContacts}>
+                                        <lightning-datatable
+                                            key-field="Id"
+                                            data={contacts}
+                                            columns={contactColumns}
+                                            hide-checkbox-column>
+                                        </lightning-datatable>
+                                    </template>
+                                    <template if:false={hasContacts}>
+                                        <p>No contacts found for this account.</p>
+                                    </template>
+                                </div>
+                            </lightning-card>
+                        </lightning-layout-item>
+
+                        <lightning-layout-item size="12" small-device-size="12" medium-device-size="4" large-device-size="4" padding="around-small">
+                            <lightning-card title="Related Opportunities" icon-name="standard:opportunity">
+                                <div class="slds-p-horizontal_medium">
+                                    <template if:true={hasOpportunities}>
+                                        <lightning-datatable
+                                            key-field="Id"
+                                            data={opportunities}
+                                            columns={opportunityColumns}
+                                            hide-checkbox-column>
+                                        </lightning-datatable>
+                                    </template>
+                                    <template if:false={hasOpportunities}>
+                                        <p>No opportunities found for this account.</p>
+                                    </template>
+                                </div>
+                            </lightning-card>
+                        </lightning-layout-item>
+
+                    </lightning-layout>
+                </template>
+            </template>
+        </div>
+    </lightning-card>
+</template>
